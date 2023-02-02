@@ -7,9 +7,8 @@ services:
     container_name: flowbuild_api
     ports:
       - 3000:3000
-    environment:
-      BROKER_HOST: "broker"
-      REDIS_HOST: "cache"
+    env_file:
+      - ./.env.docker
     depends_on:
       broker:
         condition: service_healthy
@@ -22,9 +21,8 @@ services:
   
   orchestrator:
     build: ./flowbuild-poc-orchestrator
-    environment:
-      BROKER_HOST: "broker"
-      REDIS_HOST: "cache"
+    env_file:
+      - ./.env.docker
     depends_on:
       broker:
         condition: service_healthy
@@ -37,8 +35,8 @@ services:
   
   flowbuild_v2_nodes:
     build: ./flowbuild-poc-v2-nodes
-    environment:
-      BROKER_HOST: "broker"
+    env_file:
+      - ./.env.docker
     depends_on:
       broker:
         condition: service_healthy
