@@ -9,4 +9,4 @@ docker-compose up --build --scale orchestrator=2 --scale flowbuild_v2_nodes=2
 
 
 What's done here:
-![alt text](https://github.com/imagure/flowbuild-poc-modules/blob/master/image.jpg?raw=true)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/flowbuild-v3.drawio.png)
