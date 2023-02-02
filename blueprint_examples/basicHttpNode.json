@@ -1,0 +1,80 @@
+{
+    "name": "basicHttpNode",
+    "description": "Workflow to test a node",
+    "blueprint_spec": {
+      "requirements": [
+        "core"
+      ],
+      "prepare": [],
+      "nodes": [
+        {
+          "id": "START-TEST",
+          "name": "Iniciar teste",
+          "next": "TIMER",
+          "type": "Start",
+          "lane_id": "basic",
+          "parameters": {
+            "input_schema": {}
+          },
+          "nodeSpec": "startTest"
+        },
+        {
+          "id": "TIMER",
+          "name": "SystemTimer",
+          "next": "HTTP-REQUEST",
+          "category": "timer",
+          "type": "SystemTask",
+          "lane_id": "basic",
+          "parameters": {
+              "timeout": 10000,
+              "input": {}
+          }
+        },
+        {
+          "id": "HTTP-REQUEST",
+          "name": "HTTP Test",
+          "next": "FINISH-PROCESS",
+          "type": "SystemTask",
+          "lane_id": "basic",
+          "category": "http",
+          "parameters": {
+            "input": {},
+            "request": {
+              "url": "https://postman-echo.com/status/200",
+              "verb": "GET",
+              "max_content_length": 100000
+            },
+            "valid_response_codes": [
+              200,
+              202,
+              204
+            ]
+          }
+        },
+        {
+          "id": "FINISH-PROCESS",
+          "name": "Finaliza teste",
+          "next": null,
+          "type": "Finish",
+          "lane_id": "basic",
+          "parameters": {},
+          "nodeSpec": "endTest"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "basic",
+          "name": "basic",
+          "rule": [
+                      "fn",
+                      [
+                          "&",
+                          "args"
+                      ],
+                      true
+                  ]
+        }
+      ],
+      "environment": {}
+    }
+  }

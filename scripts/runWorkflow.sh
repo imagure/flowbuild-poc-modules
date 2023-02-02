@@ -1,0 +1,1 @@
+seq 1 $2 | xargs -P$3 -I{} curl -X POST http://localhost:3000/process/start/$1 -d '{}' -H 'Content-Type: application/json'
