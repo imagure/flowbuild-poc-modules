@@ -1,0 +1,139 @@
+
+version: '3'
+
+services:
+  flowbuild_api:
+    build: ./flowbuild-poc-api
+    container_name: flowbuild_api
+    ports:
+      - 3000:3000
+    environment:
+      BROKER_HOST: "broker"
+      REDIS_HOST: "cache"
+    depends_on:
+      broker:
+        condition: service_healthy
+      cache: 
+        condition: service_healthy
+      init-broker:
+        condition: service_completed_successfully
+    networks:
+      - flowbuild
+  
+  orchestrator:
+    build: ./flowbuild-poc-orchestrator
+    environment:
+      BROKER_HOST: "broker"
+      REDIS_HOST: "cache"
+    depends_on:
+      broker:
+        condition: service_healthy
+      cache: 
+        condition: service_healthy
+      init-broker:
+        condition: service_completed_successfully
+    networks:
+      - flowbuild
+  
+  flowbuild_v2_nodes:
+    build: ./flowbuild-poc-v2-nodes
+    environment:
+      BROKER_HOST: "broker"
+    depends_on:
+      broker:
+        condition: service_healthy
+      init-broker:
+        condition: service_completed_successfully
+    networks:
+      - flowbuild
+  
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - flowbuild
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: broker
+    ports:
+    # To learn about configuring Kafka for access across networks see
+    # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - flowbuild
+  
+  init-broker:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: init-broker
+    depends_on:
+      broker:
+        condition: service_healthy
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server broker:29092 --list
+
+      echo -e 'Creating kafka topics'
+
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic orchestrator-result-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic orchestrator-start-process-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic orchestrator-finish-topic --replication-factor 1 --partitions 2
+      
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic start-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic finish-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic http-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic form-request-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic flow-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic js-script-task-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic user-task-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic timer-nodes-topic --replication-factor 1 --partitions 2
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server broker:29092 --list
+      "
+    networks:
+      - flowbuild
+  
+  cache:
+    image: redis:6.2-alpine
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    container_name: cache
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+    networks:
+      - flowbuild
+volumes:
+  cache:
+    driver: local
+networks:
+  flowbuild:
+    driver: bridge
+
+# For testing with HTTP node
+# seq 1 100 | xargs -P5 -I{} curl -X POST http://localhost:3000/process/start/basicHttpNode -d '{}' -H 'Content-Type: application/json'

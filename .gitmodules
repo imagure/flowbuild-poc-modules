@@ -1,0 +1,12 @@
+[submodule "flowbuild-poc-orchestrator"]
+	path = flowbuild-poc-orchestrator
+	url = git@github.com:imagure/flowbuild-poc-orchestrator.git
+	branch = master
+[submodule "flowbuild-poc-api"]
+	path = flowbuild-poc-api
+	url = git@github.com:imagure/flowbuild-poc-api.git
+	branch = master
+[submodule "flowbuild-poc-v2-nodes"]
+	path = flowbuild-poc-v2-nodes
+	url = git@github.com:imagure/flowbuild-poc-v2-nodes.git
+	branch = master
