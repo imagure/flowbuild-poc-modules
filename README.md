@@ -5,6 +5,13 @@
 git clone --recurse-submodules git@github.com:imagure/flowbuild-poc-modules.git
 ```
 
+For updates:
+```
+git submodule update --init --recursive
+git submodule foreach --recursive git fetch
+git submodule foreach git merge origin master
+```
+
 ## Run compose file with:
 ```
 docker-compose up --build
