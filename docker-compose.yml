@@ -96,7 +96,7 @@ services:
 
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic orchestrator-result-topic --replication-factor 1 --partitions 2
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic orchestrator-start-process-topic --replication-factor 1 --partitions 2
-      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic orchestrator-finish-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic orchestrator-continue-process-topic --replication-factor 1 --partitions 2
       
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic start-nodes-topic --replication-factor 1 --partitions 2
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic finish-nodes-topic --replication-factor 1 --partitions 2
