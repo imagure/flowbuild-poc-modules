@@ -21,6 +21,12 @@ You may also run with scaling options:
 ```
 docker-compose up --build --scale orchestrator=2 --scale flowbuild_v2_nodes=2
 ```
+## Swagger:
+You may find swagger on route: 
+```
+/docs
+```
+
 
 ## Run a manual test:
 For that you may use two scripts:
