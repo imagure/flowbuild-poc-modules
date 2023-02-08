@@ -106,6 +106,7 @@ services:
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic js-script-task-nodes-topic --replication-factor 1 --partitions 2
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic user-task-nodes-topic --replication-factor 1 --partitions 2
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic timer-nodes-topic --replication-factor 1 --partitions 2
+      kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic process-states-topic --replication-factor 1 --partitions 2
 
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server broker:29092 --list
