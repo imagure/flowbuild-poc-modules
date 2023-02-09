@@ -1,0 +1,87 @@
+{
+    "name": "PARENT",
+    "description": "Workflow to test Trigger and Target",
+    "blueprint_spec": {
+      "nodes": [
+        {
+          "id": "START-TEST",
+          "name": "Iniciar teste",
+          "next": "EVENT-TRIGGER",
+          "type": "start",
+          "lane_id": "SYSTEM",
+          "parameters": {
+            "input_schema": {}
+          }
+        },
+        {
+          "id": "EVENT-TRIGGER",
+          "name": "SystemTimer",
+          "next": "EVENT-TARGET",
+          "type": "SystemTask",
+          "category": "event",
+          "lane_id": "SYSTEM",
+          "parameters": {
+              "input": {},
+              "events": [
+                  {
+                      "category": "signal",
+                      "family": "trigger",
+                      "definition": "SIGNAL_GO"
+                  }
+              ]
+          }
+        },
+        {
+          "id": "EVENT-TARGET",
+          "name": "SystemTimer",
+          "next": "USERTASK",
+          "type": "SystemTask",
+          "category": "event",
+          "lane_id": "SYSTEM",
+          "extract": ["external_input.http_response_data"],
+          "parameters": {
+              "input": {},
+              "events": [
+                  {
+                      "category": "signal",
+                      "family": "target",
+                      "definition": "SIGNAL_BACK"
+                  }
+              ]
+          }
+        },
+        {
+          "id": "USERTASK",
+          "name": "User Task",
+          "next": "FINISH-PROCESS",
+          "type": "UserTask",
+          "lane_id": "SYSTEM",
+          "parameters": {
+              "input": {
+                  "anyKey": "anyValue"
+              },
+              "action": "TEST_ACTION"
+          }
+        },
+        {
+          "id": "FINISH-PROCESS",
+          "name": "Finaliza teste",
+          "next": null,
+          "type": "Finish",
+          "lane_id": "SYSTEM",
+          "parameters": {}
+        }
+      ],
+      "lanes": [
+        {
+          "id": "SYSTEM",
+          "roles": ["system"] 
+        },
+        {
+          "id": "RESTRICT",
+          "roles": ["admin"] 
+        }
+      ],
+      "environment": {}
+    }
+  }

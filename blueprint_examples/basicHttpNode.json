@@ -33,7 +33,7 @@
         "type": "SystemTask",
         "lane_id": "SYSTEM",
         "category": "http",
-        "extract": ["status", "data"],
+        "extract": ["result.status", "result.data"],
         "parameters": {
           "input": {},
           "request": {

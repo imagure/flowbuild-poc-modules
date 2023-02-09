@@ -1,0 +1,101 @@
+{
+    "name": "CHILD",
+    "description": "Workflow to test a Trigger and Target nodes",
+    "blueprint_spec": {
+      "nodes": [
+        {
+          "id": "START-TEST",
+          "name": "Iniciar teste",
+          "next": "TIMER",
+          "type": "start",
+          "category": "event",
+          "lane_id": "SYSTEM",
+          "parameters": {
+            "input_schema": {},
+            "events": [
+                  {
+                      "category": "signal",
+                      "family": "target",
+                      "definition": "SIGNAL_GO"
+                  }
+              ]
+          },
+          "nodeSpec": "startTest"
+        },
+        {
+          "id": "TIMER",
+          "name": "SystemTimer",
+          "next": "HTTP-REQUEST",
+          "category": "timer",
+          "type": "SystemTask",
+          "lane_id": "SYSTEM",
+          "parameters": {
+              "timeout": 5000,
+              "input": {}
+          }
+        },
+        {
+          "id": "HTTP-REQUEST",
+          "name": "HTTP Test",
+          "next": "EVENT",
+          "type": "SystemTask",
+          "lane_id": "SYSTEM",
+          "category": "http",
+          "extract": ["result.status", "result.data"],
+          "parameters": {
+            "input": {},
+            "request": {
+              "url": "https://postman-echo.com/status/200",
+              "verb": "GET",
+              "max_content_length": 100000
+            },
+            "valid_response_codes": [
+              200,
+              202,
+              204
+            ]
+          }
+        },
+        {
+          "id": "EVENT",
+          "name": "SystemTimer",
+          "next": "FINISH-PROCESS",
+          "type": "SystemTask",
+          "category": "event",
+          "lane_id": "SYSTEM",
+          "parameters": {
+              "input": {
+                  "http_response_data": { "$ref": "bag.HTTP-REQUEST.result.data" }
+              },
+              "events": [
+                  {
+                      "category": "signal",
+                      "family": "trigger",
+                      "definition": "SIGNAL_BACK"
+                  }
+              ]
+          }
+        },
+        {
+          "id": "FINISH-PROCESS",
+          "name": "Finaliza teste",
+          "next": null,
+          "type": "Finish",
+          "lane_id": "SYSTEM",
+          "parameters": {},
+          "nodeSpec": "endTest"
+        }
+      ],
+      "lanes": [
+        {
+          "id": "SYSTEM",
+          "roles": ["system"] 
+        },
+        {
+          "id": "RESTRICT",
+          "roles": ["admin"] 
+        }
+      ],
+      "environment": {}
+    }
+  }
