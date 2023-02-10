@@ -36,4 +36,4 @@ For more information on Keycloak configuration, see the docs [here](https://gith
 
 ## What's implemented here:
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/flowbuild-v3.drawio.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/flowbuild-v3-update.drawio.png)
