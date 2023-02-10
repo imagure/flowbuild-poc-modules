@@ -27,25 +27,10 @@ You may find swagger on route:
 /docs
 ```
 
-
-## Run a manual test:
-For that you may use two scripts:
-
-* To create Workflow:
-```
-./scripts/createWorkflow.sh <workflow name from blueprint_examples>
-```
-
-* To start processes:
-```
-./scripts/runWorkflow.sh <workflow name> <total requests> <parallel requests>
-```
-
-* Example:
-```
-./scripts/createWorkflow.sh basicHttpNode
-./scripts/runWorkflow.sh basicHttpNode 10 5
-```
+## Authentication:
+Flowbuild-API uses a own generated token (HS256) and may also use external configurations for token validations (RS256).
+For "external" validations, Keycloak was used as a reference and it is currently provisioned on ```docker-compose.yml```.
+For more information on Keycloak configuration, see ```keycloak-doc``` folder. 
 
 ## What's implemented here:
 
