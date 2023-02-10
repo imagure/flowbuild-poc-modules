@@ -129,9 +129,38 @@ services:
       - cache:/data
     networks:
       - flowbuild
+  
+  postgres:
+      image: postgres
+      container_name: keycloak_db
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+
+  keycloak:
+    image: jboss/keycloak:latest
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER:  admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
 volumes:
   cache:
     driver: local
+  postgres_data:
+      driver: local
+      
 networks:
   flowbuild:
     driver: bridge
