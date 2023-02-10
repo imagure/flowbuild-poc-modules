@@ -29,8 +29,10 @@ You may find swagger on route:
 
 ## Authentication:
 Flowbuild-API uses a own generated token (HS256) and may also use external configurations for token validations (RS256).
+
 For "external" validations, Keycloak was used as a reference and it is currently provisioned on ```docker-compose.yml```.
-For more information on Keycloak configuration, see ```keycloak-doc``` folder. 
+
+For more information on Keycloak configuration, see the docs [here](https://github.com/imagure/flowbuild-poc-modules/tree/master/keycloak-doc). 
 
 ## What's implemented here:
 
