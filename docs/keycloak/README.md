@@ -24,33 +24,33 @@ curl --location --request POST 'localhost:8080/auth/realms/flowbuild/protocol/op
 
 * Create new realm (eg. "flowbuild")
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/keycloak-doc/1.realm_creation.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/docs/keycloak/1.realm_creation.png)
 
 
 * Create new client for that realm (eg. "flowbuild-api")
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/keycloak-doc/2.client_creation.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/docs/keycloak/2.client_creation.png)
 
 
 * Configure client to "Service Account" (don't forget to give it a redirect URL an save it)
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/keycloak-doc/3.client_configuration.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/docs/keycloak/3.client_configuration.png)
 
 
 * Get client credential (you'll need it to POST for tokens later)
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/keycloak-doc/4.client_credential.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/docs/keycloak/4.client_credential.png)
 
 
 * Create new User (optionally, you might create a Group as well)
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/keycloak-doc/5.user_password.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/docs/keycloak/5.user_password.png)
 
 
 * On client page, create new roles to be used on tab "Roles" (ex: 'common', 'admin', etc...)
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/keycloak-doc/6.client_roles.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/docs/keycloak/6.client_roles.png)
 
 
 * Assign created roles to the user (or to the Group if you created one)
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/keycloak-doc/7.roles_assign.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/docs/keycloak/7.roles_assign.png)

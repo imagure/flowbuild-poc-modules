@@ -32,7 +32,7 @@ Flowbuild-API uses a own generated token (HS256) and may also use external confi
 
 For "external" validations, Keycloak was used as a reference and it is currently provisioned on ```docker-compose.yml```.
 
-For more information on Keycloak configuration, see the docs [here](https://github.com/imagure/flowbuild-poc-modules/tree/master/keycloak-doc). 
+For more information on Keycloak configuration, see the docs [here](https://github.com/imagure/flowbuild-poc-modules/tree/master/docs/keycloak). 
 
 ## What's implemented here:
 
