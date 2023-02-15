@@ -33,8 +33,8 @@ services:
     networks:
       - flowbuild
   
-  flowbuild_v2_nodes:
-    build: ./flowbuild-poc-v2-nodes
+  flowbuild_node_worker:
+    build: ./flowbuild-poc-node-worker
     env_file:
       - ./.env.docker
     depends_on:

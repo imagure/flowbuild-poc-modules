@@ -6,7 +6,6 @@
 	path = flowbuild-poc-api
 	url = git@github.com:imagure/flowbuild-poc-api.git
 	branch = master
-[submodule "flowbuild-poc-v2-nodes"]
-	path = flowbuild-poc-v2-nodes
-	url = git@github.com:imagure/flowbuild-poc-v2-nodes.git
-	branch = master
+[submodule "flowbuild-poc-node-worker"]
+	path = flowbuild-poc-node-worker
+	url = git@github.com:imagure/flowbuild-poc-node-worker.git
