@@ -36,4 +36,21 @@ For more information on Keycloak configuration, see the docs [here](https://gith
 
 ## What's implemented here:
 
-![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/flowbuild-v3-update.drawio.png)
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/images/flowbuild-v3-update.drawio.png)
+
+
+## Some Test Results:
+
+* Climem (initial moment):
+
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/images/climem-ramp-up.drawio.png)
+
+
+* Climem (later):
+
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/images/climem-established.drawio.png)
+
+
+* Climem (jmeter results):
+
+![alt text](https://raw.githubusercontent.com/imagure/flowbuild-poc-modules/master/images/jmeter-summary.png)
